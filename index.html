@@ -1,744 +1,401 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoGamers - Comunitatea Ta de Gaming</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #00ff88;
-            --secondary: #ff00ff;
-            --accent: #00d4ff;
-            --dark: #0a0e1a;
-            --darker: #050810;
-            --light: #ffffff;
-            --gray: #8892b0;
-        }
-
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background: var(--darker);
-            color: var(--light);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(ellipse at 20% 30%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 70%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
-            animation: bgPulse 15s ease-in-out infinite;
-        }
-
-        @keyframes bgPulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.8; }
-        }
-
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridScroll 20s linear infinite;
-        }
-
-        @keyframes gridScroll {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(50px); }
-        }
-
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            background: rgba(10, 14, 26, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid rgba(0, 255, 136, 0.2);
-            animation: slideDown 0.6s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.5rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
-            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--gray);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            animation: fadeInUp 1s ease-out 0.3s backwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            animation: glow 3s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { 
-                filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5));
-            }
-            50% { 
-                filter: drop-shadow(0 0 40px rgba(0, 255, 136, 0.8));
-            }
-        }
-
-        .hero .subtitle {
-            font-size: 1.5rem;
-            color: var(--gray);
-            margin-bottom: 2rem;
-            font-weight: 500;
-        }
-
-        .server-ip {
-            display: inline-block;
-            background: rgba(0, 255, 136, 0.1);
-            border: 2px solid var(--primary);
-            padding: 1.5rem 3rem;
-            border-radius: 15px;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 2rem 0;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .server-ip::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .server-ip:hover::before {
-            left: 100%;
-        }
-
-        .server-ip:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 3rem;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: var(--dark);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.5);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary);
-            color: var(--dark);
-            transform: translateY(-3px);
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 4rem 2rem;
-            background: rgba(10, 14, 26, 0.5);
-            border-top: 2px solid rgba(0, 255, 136, 0.2);
-            border-bottom: 2px solid rgba(0, 255, 136, 0.2);
-        }
-
-        .stats-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-        }
-
-        .stat-card {
-            text-align: center;
-            padding: 2rem;
-            background: rgba(0, 255, 136, 0.05);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
-        }
-
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 1.2rem;
-            color: var(--gray);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Features Section */
-        .features {
-            padding: 6rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            text-align: center;
-            margin-bottom: 4rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 212, 255, 0.05));
-            border: 2px solid rgba(0, 255, 136, 0.2);
-            border-radius: 20px;
-            padding: 2.5rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(0, 255, 136, 0.1));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .feature-card:hover::before {
-            opacity: 1;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--primary);
-            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.3);
-        }
-
-        .feature-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.5));
-        }
-
-        .feature-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        /* Gamemodes Section */
-        .gamemodes {
-            padding: 6rem 2rem;
-            background: rgba(10, 14, 26, 0.5);
-        }
-
-        .gamemodes-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .gamemode-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .gamemode-card {
-            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 212, 255, 0.1));
-            border: 2px solid rgba(255, 0, 255, 0.3);
-            border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
-            transition: all 0.4s ease;
-            cursor: pointer;
-        }
-
-        .gamemode-card:hover {
-            transform: translateY(-15px) rotate(-2deg);
-            border-color: var(--secondary);
-            box-shadow: 0 25px 60px rgba(255, 0, 255, 0.4);
-        }
-
-        .gamemode-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            font-weight: 900;
-        }
-
-        .gamemode-card p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .gamemode-status {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: rgba(0, 255, 136, 0.2);
-            border-radius: 20px;
-            color: var(--primary);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            border-top: 2px solid rgba(0, 255, 136, 0.2);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .social-links a {
-            color: var(--gray);
-            font-size: 2rem;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--primary);
-            transform: scale(1.2) rotate(10deg);
-        }
-
-        footer p {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 3rem;
-            }
-
-            .server-ip {
-                font-size: 1.5rem;
-                padding: 1rem 2rem;
-            }
-
-            .nav-links {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-            }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
-
-            .features-grid,
-            .gamemode-cards {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Scroll Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .fade-in:nth-child(1) { animation-delay: 0.1s; }
-        .fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .fade-in:nth-child(3) { animation-delay: 0.3s; }
-        .fade-in:nth-child(4) { animation-delay: 0.4s; }
-        .fade-in:nth-child(5) { animation-delay: 0.5s; }
-        .fade-in:nth-child(6) { animation-delay: 0.6s; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MineVerse – Server Minecraft România</title>
+  <meta name="description" content="MineVerse – Cel mai tare server de Minecraft din România. Survival autentic, comunitate prietenoasă, fără pay-to-win." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div class="bg-animation"></div>
-    <div class="bg-grid"></div>
 
-    <header>
-        <nav>
-            <div class="logo">RoGamers</div>
-            <ul class="nav-links">
-                <li><a href="#acasa">Acasă</a></li>
-                <li><a href="#gamemodes">Gamemodes</a></li>
-                <li><a href="#staff">Staff</a></li>
-                <li><a href="#regulament">Regulament</a></li>
-                <li><a href="#vote">Vote</a></li>
-                <li><a href="#shop">Shop</a></li>
-            </ul>
-        </nav>
-    </header>
+<!-- PARTICLES CANVAS -->
+<canvas id="particles"></canvas>
 
-    <section class="hero" id="acasa">
-        <div class="hero-content">
-            <h1>RoGamers</h1>
-            <p class="subtitle">Cel mai epic server de Minecraft din România</p>
-            <div class="server-ip" onclick="copyIP()">RoGamers.ro</div>
-            <div class="cta-buttons">
-                <a href="#gamemodes" class="btn btn-primary">Descoperă Gamemodes</a>
-                <a href="#shop" class="btn btn-secondary">Vizitează Shop-ul</a>
-            </div>
+<!-- CURSOR GLOW -->
+<div id="cursor-glow"></div>
+
+<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">
+      <span class="logo-bracket">[</span>Mine<span class="logo-accent">Verse</span><span class="logo-bracket">]</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home">Acasă</a></li>
+      <li><a href="#features">Despre</a></li>
+      <li><a href="#rules">Reguli</a></li>
+      <li><a href="#staff">Staff</a></li>
+      <li><a href="#join" class="nav-cta">Alătură-te</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Meniu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#home">Acasă</a>
+    <a href="#features">Despre</a>
+    <a href="#rules">Reguli</a>
+    <a href="#staff">Staff</a>
+    <a href="#join">Alătură-te</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ HERO ══════════════════════════════ -->
+<section id="home" class="hero">
+  <div class="hero-bg">
+    <div class="grid-overlay"></div>
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Server ONLINE · 1.21.4 Java Edition
+    </div>
+
+    <h1 class="hero-title">
+      <span class="title-line1">Mine</span><span class="title-line2">Verse</span>
+    </h1>
+    <p class="hero-sub">Survival autentic. Comunitate românească.<br>Fără pay-to-win. Fără compromisuri.</p>
+
+    <div class="ip-box">
+      <div class="ip-label">IP Server</div>
+      <div class="ip-row">
+        <span class="ip-text" id="ip-text">play.mineverse.ro</span>
+        <button class="ip-copy" id="copy-btn" onclick="copyIP()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copiază
+        </button>
+      </div>
+      <div class="ip-version">Java 1.21.4 · Port 25565</div>
+    </div>
+
+    <div class="hero-buttons">
+      <a href="#join" class="btn-primary">
+        <span>Cum să intri</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#features" class="btn-ghost">Află mai multe</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">20<span>+</span></div>
+        <div class="stat-lbl">Jucători</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">1TB</div>
+        <div class="stat-lbl">Stocare</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-num">0%</div>
+        <div class="stat-lbl">Pay-to-win</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FEATURES ══════════════════════════ -->
+<section id="features" class="features">
+  <div class="section-inner">
+    <div class="section-tag">// despre server</div>
+    <h2 class="section-title">De ce <span>MineVerse</span>?</h2>
+    <p class="section-sub">Un server construit cu grijă pentru comunitatea românească de Minecraft.</p>
+
+    <div class="features-grid">
+      <div class="feat-card" data-delay="0">
+        <div class="feat-icon">⚔️</div>
+        <h3>Survival Pur</h3>
+        <p>Experiență vanilla îmbunătățită. Fără iteme plătite, fără avantaje nemeritate. Câștigă prin skill, nu prin portofel.</p>
+      </div>
+      <div class="feat-card" data-delay="100">
+        <div class="feat-icon">🛡️</div>
+        <h3>Anti-Cheat Avansat</h3>
+        <p>Sistem anti-cheat de ultimă generație (GrimAC) și protecție anti-bot. Joci în siguranță, fără hackeri.</p>
+      </div>
+      <div class="feat-card" data-delay="200">
+        <div class="feat-icon">⚡</div>
+        <h3>Performanță Maximă</h3>
+        <p>Server dedicat cu 16GB RAM și SSD de 1TB. TPS stabil la 20, lag minim, uptime 24/7.</p>
+      </div>
+      <div class="feat-card" data-delay="300">
+        <div class="feat-icon">🗺️</div>
+        <h3>Lume Pre-generată</h3>
+        <p>Chunk-urile sunt pre-generate pe o rază vastă. Explorezi liber fără lag de generare.</p>
+      </div>
+      <div class="feat-card" data-delay="400">
+        <div class="feat-icon">🔒</div>
+        <h3>Grief Protection</h3>
+        <p>CoreProtect loghează fiecare bloc. Dacă cineva îți strică construcția, o restaurăm în câteva secunde.</p>
+      </div>
+      <div class="feat-card" data-delay="500">
+        <div class="feat-icon">🇷🇴</div>
+        <h3>Comunitate RO</h3>
+        <p>Server 100% românesc. Staff activ, răspundem rapid pe Discord, atmosferă prietenoasă și fără toxicitate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ RULES ═════════════════════════════ -->
+<section id="rules" class="rules">
+  <div class="section-inner">
+    <div class="section-tag">// regulament</div>
+    <h2 class="section-title">Regulile <span>Serverului</span></h2>
+    <p class="section-sub">Respectarea regulilor asigură o experiență plăcută pentru toți jucătorii.</p>
+
+    <div class="rules-grid">
+
+      <div class="rule-category">
+        <div class="rule-cat-header">
+          <span class="rule-cat-icon">💬</span>
+          <span>Comportament</span>
         </div>
-    </section>
-
-    <section class="stats">
-        <div class="stats-container">
-            <div class="stat-card fade-in">
-                <div class="stat-number">1,500+</div>
-                <div class="stat-label">Jucători Activi</div>
+        <div class="rule-list">
+          <div class="rule-item">
+            <span class="rule-num">01</span>
+            <div>
+              <strong>Respect reciproc</strong>
+              <p>Limbaj ofensator, rasist sau discriminatoriu este strict interzis. Tratează-i pe ceilalți cum vrei să fii tratat.</p>
             </div>
-            <div class="stat-card fade-in">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Online Non-Stop</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">02</span>
+            <div>
+              <strong>Fără spam și flood</strong>
+              <p>Nu trimite mesaje repetate în chat, nu folosi majuscule excesive și nu promova alte servere.</p>
             </div>
-            <div class="stat-card fade-in">
-                <div class="stat-number">99.9%</div>
-                <div class="stat-label">Uptime</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">03</span>
+            <div>
+              <strong>Fără hărțuire</strong>
+              <p>Hărțuirea altor jucători, urmărirea sau amenințarea acestora duce la ban permanent.</p>
             </div>
-            <div class="stat-card fade-in">
-                <div class="stat-number">5+</div>
-                <div class="stat-label">Ani de Experiență</div>
-            </div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section class="features" id="features">
-        <h2 class="section-title">De ce RoGamers?</h2>
-        <div class="features-grid">
-            <div class="feature-card fade-in">
-                <div class="feature-icon">⚡</div>
-                <h3>Performance Maxim</h3>
-                <p>Servere dedicate de ultimă generație cu 0 lag. Experiență de joc fluidă garantată pentru toți jucătorii.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">🛡️</div>
-                <h3>Anti-Cheat Avansat</div>
-                <p>Sistem de protecție de top care menține serverul curat și echitabil pentru toată comunitatea.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">🎮</div>
-                <h3>Gamemodes Variate</h3>
-                <p>De la Survival clasic până la moduri custom unice. Mereu găsești ceva nou de explorat.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">👥</div>
-                <h3>Comunitate Activă</h3>
-                <p>Alătură-te unei comunități prietenoase de mii de jucători pasionați din toată România.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">🏆</div>
-                <h3>Events & Premii</h3>
-                <p>Evenimente săptămânale cu premii exclusive și competiții emoționante pentru toată comunitatea.</p>
-            </div>
-            <div class="feature-card fade-in">
-                <div class="feature-icon">🔧</div>
-                <h3>Support 24/7</h3>
-                <p>Echipa noastră de staff dedicată este mereu disponibilă să te ajute cu orice problemă.</p>
-            </div>
+      <div class="rule-category">
+        <div class="rule-cat-header">
+          <span class="rule-cat-icon">🎮</span>
+          <span>Gameplay</span>
         </div>
-    </section>
-
-    <section class="gamemodes" id="gamemodes">
-        <div class="gamemodes-container">
-            <h2 class="section-title">Gamemodes Disponibile</h2>
-            <div class="gamemode-cards">
-                <div class="gamemode-card fade-in">
-                    <h3>SURVIVAL</h3>
-                    <p>Experiența clasică Minecraft cu protecție terenuri, economie și shop-uri custom.</p>
-                    <span class="gamemode-status">ONLINE</span>
-                </div>
-                <div class="gamemode-card fade-in">
-                    <h3>SKYBLOCK</h3>
-                    <p>Construiește-ți insula în cer, completează quest-uri și devino cel mai bogat jucător.</p>
-                    <span class="gamemode-status">ONLINE</span>
-                </div>
-                <div class="gamemode-card fade-in">
-                    <h3>PRISON</h3>
-                    <p>Evadează din închisoare minând, farmând și cucerind rankuri din ce în ce mai înalte.</p>
-                    <span class="gamemode-status">ONLINE</span>
-                </div>
-                <div class="gamemode-card fade-in">
-                    <h3>FACTIONS</h3>
-                    <p>Creează-ți propria facțiune, cucerește teritorii și domină serverul în PvP epic.</p>
-                    <span class="gamemode-status">ONLINE</span>
-                </div>
-                <div class="gamemode-card fade-in">
-                    <h3>BEDWARS</h3>
-                    <p>Protejează-ți patul și distruge paturile adversarilor în bătălii intense 4v4v4v4.</p>
-                    <span class="gamemode-status">ONLINE</span>
-                </div>
-                <div class="gamemode-card fade-in">
-                    <h3>PARKOUR</h3>
-                    <p>Testează-ți abilitățile pe sute de niveluri de parkour cu dificultate crescândă.</p>
-                    <span class="gamemode-status">ONLINE</span>
-                </div>
+        <div class="rule-list">
+          <div class="rule-item">
+            <span class="rule-num">04</span>
+            <div>
+              <strong>Fără cheat-uri sau hack-uri</strong>
+              <p>Orice client modificat care oferă avantaje (fly, speed, killaura etc.) este interzis. Penalizare: ban permanent.</p>
             </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="social-links">
-                <a href="#" title="Discord">💬</a>
-                <a href="#" title="Instagram">📷</a>
-                <a href="#" title="YouTube">🎬</a>
-                <a href="#" title="TikTok">🎵</a>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">05</span>
+            <div>
+              <strong>Fără grief</strong>
+              <p>Distrugerea construcțiilor altora, furtul din case sau farms neprotejate este interzis.</p>
             </div>
-            <p>&copy; 2026 RoGamers.ro - Toate drepturile rezervate</p>
-            <p style="margin-top: 1rem; color: var(--gray);">Minecraft este o marcă înregistrată a Mojang AB</p>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">06</span>
+            <div>
+              <strong>Fără exploituri</strong>
+              <p>Bug-urile și exploit-urile trebuie raportate staff-ului, nu exploatate. Raportarea corectă poate fi recompensată.</p>
+            </div>
+          </div>
         </div>
-    </footer>
+      </div>
 
-    <script>
-        function copyIP() {
-            navigator.clipboard.writeText('RoGamers.ro').then(() => {
-                const serverIP = document.querySelector('.server-ip');
-                const originalText = serverIP.textContent;
-                serverIP.textContent = '✓ Copiat în clipboard!';
-                serverIP.style.background = 'rgba(0, 255, 136, 0.3)';
-                
-                setTimeout(() => {
-                    serverIP.textContent = originalText;
-                    serverIP.style.background = 'rgba(0, 255, 136, 0.1)';
-                }, 2000);
-            });
-        }
+      <div class="rule-category">
+        <div class="rule-cat-header">
+          <span class="rule-cat-icon">🏗️</span>
+          <span>Construcții & Lume</span>
+        </div>
+        <div class="rule-list">
+          <div class="rule-item">
+            <span class="rule-num">07</span>
+            <div>
+              <strong>Construiește responsabil</strong>
+              <p>Nu construi prea aproape de alți jucători fără acordul lor. Respectă spațiul personal (min. 100 blocuri față de alți jucători).</p>
+            </div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">08</span>
+            <div>
+              <strong>Fără lag machines</strong>
+              <p>Redstone farms sau construcții care cauzează lag excesiv pe server vor fi eliminate fără avertisment.</p>
+            </div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-num">09</span>
+            <div>
+              <strong>Fără construcții obscene</strong>
+              <p>Construcțiile cu conținut explicit sau ofensator vor fi șterse și jucătorul sancționat.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+      <div class="rule-category">
+        <div class="rule-cat-header">
+          <span class="rule-cat-icon">⚠️</span>
+          <span>Sancțiuni</span>
+        </div>
+        <div class="rule-list">
+          <div class="rule-item penalty-warn">
+            <span class="rule-num warn">!</span>
+            <div>
+              <strong>Avertisment</strong>
+              <p>Prima abatere minoră. Primești un warn vizibil în profilul tău.</p>
+            </div>
+          </div>
+          <div class="rule-item penalty-mute">
+            <span class="rule-num mute">🔇</span>
+            <div>
+              <strong>Mute temporar</strong>
+              <p>Spam, limbaj ofensator repetat. Durată: 1h – 7 zile.</p>
+            </div>
+          </div>
+          <div class="rule-item penalty-ban">
+            <span class="rule-num ban">✕</span>
+            <div>
+              <strong>Ban temporar / permanent</strong>
+              <p>Cheat, grief, comportament toxic repetat. Ban permanent pentru hack-uri.</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        // Intersection Observer for scroll animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
+    </div>
+  </div>
+</section>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+<!-- ═══════════════════════════════ STAFF ═════════════════════════════ -->
+<section id="staff" class="staff">
+  <div class="section-inner">
+    <div class="section-tag">// echipa</div>
+    <h2 class="section-title">Staff-ul <span>MineVerse</span></h2>
+    <p class="section-sub">Oamenii care mențin serverul în viață, 24/7.</p>
 
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    </script>
+    <div class="staff-grid">
+
+      <div class="staff-card featured">
+        <div class="staff-avatar">
+          <img src="https://mc-heads.net/avatar/RaulGamerica/128" alt="RaulGamerica" onerror="this.src='https://mc-heads.net/avatar/Steve/128'" />
+          <div class="staff-avatar-glow"></div>
+        </div>
+        <div class="staff-info">
+          <div class="staff-name">RaulGamerica</div>
+          <div class="staff-role owner">👑 Owner & Developer</div>
+          <div class="staff-desc">Fondatorul și developerul principal al serverului. Se ocupă de infrastructură, plugin-uri și tot ce ține de tehnic.</div>
+        </div>
+        <div class="staff-badge-wrap">
+          <span class="staff-badge">OWNER</span>
+        </div>
+      </div>
+
+      <!-- Placeholder cards -->
+      <div class="staff-card placeholder">
+        <div class="staff-avatar placeholder-av">
+          <div class="av-question">?</div>
+        </div>
+        <div class="staff-info">
+          <div class="staff-name">Loc disponibil</div>
+          <div class="staff-role admin">⚡ Admin</div>
+          <div class="staff-desc">Vrei să faci parte din echipă? Contactează-ne pe Discord!</div>
+        </div>
+        <div class="staff-badge-wrap">
+          <span class="staff-badge admin-badge">HIRING</span>
+        </div>
+      </div>
+
+      <div class="staff-card placeholder">
+        <div class="staff-avatar placeholder-av">
+          <div class="av-question">?</div>
+        </div>
+        <div class="staff-info">
+          <div class="staff-name">Loc disponibil</div>
+          <div class="staff-role mod">🛡️ Moderator</div>
+          <div class="staff-desc">Căutăm moderatori activi și dedicați comunității.</div>
+        </div>
+        <div class="staff-badge-wrap">
+          <span class="staff-badge mod-badge">HIRING</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ JOIN ══════════════════════════════ -->
+<section id="join" class="join">
+  <div class="section-inner">
+    <div class="section-tag">// alătură-te</div>
+    <h2 class="section-title">Cum să te <span>alături</span>?</h2>
+    <p class="section-sub">3 pași simpli și ești în joc.</p>
+
+    <div class="join-steps">
+      <div class="join-step">
+        <div class="join-step-num">01</div>
+        <div class="join-step-icon">🎮</div>
+        <h3>Cumpără Minecraft Java</h3>
+        <p>Ai nevoie de un cont oficial Minecraft Java Edition. Cumpără de pe <strong>minecraft.net</strong>.</p>
+      </div>
+      <div class="join-arrow">→</div>
+      <div class="join-step">
+        <div class="join-step-num">02</div>
+        <div class="join-step-icon">🚀</div>
+        <h3>Deschide Minecraft</h3>
+        <p>Lansează Minecraft Java Edition versiunea <strong>1.21.4</strong>. Selecteaz-o din launcher dacă nu e implicită.</p>
+      </div>
+      <div class="join-arrow">→</div>
+      <div class="join-step">
+        <div class="join-step-num">03</div>
+        <div class="join-step-icon">🌐</div>
+        <h3>Conectează-te</h3>
+        <p>Multiplayer → Add Server → introdu IP-ul <strong>play.mineverse.ro</strong> → Connect. Gata!</p>
+      </div>
+    </div>
+
+    <div class="join-ip-final">
+      <div class="join-ip-label">IP Server</div>
+      <div class="join-ip-value" onclick="copyIP()">play.mineverse.ro <span class="copy-hint">click să copiezi</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <span class="logo-bracket">[</span>Mine<span class="logo-accent">Verse</span><span class="logo-bracket">]</span>
+    </div>
+    <p class="footer-desc">Server Minecraft România · Java 1.21.4 · Survival</p>
+    <div class="footer-links">
+      <a href="#home">Acasă</a>
+      <a href="#rules">Reguli</a>
+      <a href="#staff">Staff</a>
+      <a href="#join">Alătură-te</a>
+    </div>
+    <p class="footer-copy">© 2025 MineVerse · Toate drepturile rezervate · Nu este afiliat cu Mojang sau Microsoft</p>
+  </div>
+</footer>
+
+<div id="toast" class="toast">✓ IP copiat în clipboard!</div>
+
+<script src="js/main.js"></script>
 </body>
 </html>
